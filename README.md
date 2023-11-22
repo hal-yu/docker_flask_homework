@@ -24,11 +24,22 @@ CMD ["python","app.py"]
 - ```docker rm <container id>``` to remove a container
 - ```docker system prune -a -f``` to clean and remove everything
 
-# Documentation for Part 2: Multi_Container Setup with Docker Compose
+# Documentation for Part 2: Multi-Container Setup with Docker Compose
 - Create 2 folders titled flask1 asnd flask2
 
 ### Flask folders should consist of:
 - Dockerfile in both folders should be the same:
+```
+FROM python:3.10-slim-buster
+WORKDIR /app
+COPY . /app
+RUN pip install -r requirements.txt
+EXPOSE 5000
+CMD ["python", "app.py"]
+```
+- Python app.py file
+- requirements.txt with flask
+- Flask 2 should include a ```docker-compose.yml``` file:
 ```
 version: '3'                [version of Docker Compose file]
 services:                   [services that make application (flask_app_1, flask_app_2)]
@@ -45,10 +56,7 @@ services:                   [services that make application (flask_app_1, flask_
     volumes:
       - ./flask2:/app
 ```
-- Python app.py file
-- requirements.txt with flask
-- Flask 2 should include a ```docker-compose.yml``` file:
-
+### Setting Up
 - Build images using ```docker-compose up--build```
 - Run containers using ```docker-compose up```
 - Stop containers using ```docker-compose down```
